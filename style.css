@@ -1,56 +1,604 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    margin: 10px 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    font-family: "Do Hyeon", sans-serif;
+    background-color: #f7cb66;
+    color: black;
+}
+
+.sidebar {
+    position: fixed;
+    height: calc(100% - 2em);
+    width: 80px;
+    background-color: #5ec5c9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin: 10px;
+}
+
+.sidebar.expanded {
+    width: 200px;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    margin: 10px 10px;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    background-color: #e06b6b;
+    border: 1px solid black;
+    border-radius: 10px;
+    position: relative;
+    transition: width 0.3s ease;
+    padding: 10px 10px;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    color: var(--button-font-color);
+    height: 3em;
+    width: 3em;
 }
+
+.settings-icon {
+    align-items: flex-end;
+    width: 50px;
+    height: 50px;
+    margin: 595px 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    background-color: #517eed;
+    border: 1px solid black;
+    border-radius: 10px;
+    position: relative;
+    transition: width 0.3s ease;
+    padding: 10px 10px;
+    color: var(--button-font-color);
+    height: 3em;
+    width: 3em;
+}
+
+.icon i, .settings-icon i {
+    font-size: 24px;
+    color: black;
+}
+
+/* 아이콘 호버 효과 */
+.icon:hover {
+    background-color: #e06b6b;
+    border-color: #f7f7f7;
+}
+
+.icon i:hover {
+    color: rgba(255, 255, 255, 0.81);
+}
+
+/* 셋팅아이콘 호버 효과 */
+.settings-icon:hover {
+    background-color: #517eed;
+    border-color: #ffffff;
+}
+
+.settings-icon i:hover {
+    color: rgba(255, 255, 255, 0.81);
+}
+
+.sidebar.expanded .icon, .sidebar.expanded .menu-item, .sidebar.expanded .settings-icon {
+    width: 90%;
+    justify-content: flex-start;
+}
+
+.sidebar.expanded .menu-item span, .sidebar.expanded .icon span, .sidebar.expanded .settings-icon span {
+    display: inline;
+    margin-left: 10px;
+}
+
+.icon span, .settings-icon span {
+    display: none;
+    font-size: 1.1em;
+    margin-left: 5px;
+}
+
+.sidebar.expanded .icon span, .sidebar.expanded .settings-icon span {
+    display: inline;
+}
+
+.header {
+    width: calc(100% - 20px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.header .title {
+    display: none;
+    font-size: 18px;
+}
+
+.header .close-icon {
+    display: none;
+    width: 24px;
+    height: 24px;
+    background-color: #3498db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.sidebar.expanded .header .title {
+    display: block;
+}
+
+.sidebar.expanded .header .close-icon {
+    display: flex;
+}
+
+/* 캘린더 부분 */
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+.clearfix:after {
+    content: '';
+    display: block;
+    clear: both;
+    float: none;
+}
+
+.calendar-container, .deleted-container {
+    display: none;
+    background-color: #5ec5c9;
+    background-size: cover;
+    margin: auto;
+    position: relative;
+    max-width: 860px;
+    border-top: 20px solid #5ec5c9;
+    border-bottom: 20px solid #5ec5c9;
+    border: 1px solid black;
+    height: calc(100% - 2em);
+    box-sizing: border-box;
+    min-height: 98vh;
+    border-radius: 15px; 
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+    padding: 20px;
+    text-align: center;
+    font-weight: 800;
+    cursor: default;
+}
+
+.calendar-container h1, .deleted-container h1 {
+    color: rgb(0, 0, 0);
+    margin-bottom: 30px;
+}
+
+.clicked-date {
+    border-radius: 25px;
+    border: 1px solid black;
+    background-position-y: center;
+    margin-left: 159px;
+    width: 60%;
+    padding: 45px 0px 45px 0px;
+    background: #ddd;
+}
+
+.calendar-box {
+    margin-top: 30px;
+    float: inline-start;
+    width: 80%;
+    padding-left: 160px;
+}
+
+.clicked-date .cal-day {
+    font-size: 24px;
+}
+
+.clicked-date .cal-date {
+    font-size: 130px;
+}
+
+.ctr-box {
+    padding: 0 16px;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.ctr-box .btn-cal {
+    position: relative;
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin-top: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.ctr-box .btn-cal:after {
+    content: '<';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 25px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.ctr-box .btn-cal.next {
+    float: right;
+}
+
+.ctr-box .btn-cal.next:after {
+    content: '>';
+}
+
+.cal-table {
+    width: 100%;
+}
+
+.cal-table th {
+    width: 14.2857%;
+    padding-bottom: 5px;
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.cal-table td {
+    padding: 3px 0;
+    height: 50px;
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+.cal-table td.day {
+    position: relative;
+    cursor: pointer;
+}
+
+.cal-table td.today {
+    background: #ffd255;
+    border-radius: 20%;
+    color: #fff;
+}
+
+.cal-table td.day-active {
+    background: #ff8585;
+    border-radius: 20%;
+    color: #fff;
+}
+
+.cal-table td.has-event:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: #FFC107;
+}
+
+.close-calendar, .close-deleted {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    background-color: #ff8585;
+    color: #000000;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+/* deleted 부분 시작 */
+.my-deleted {
+    margin: 1em 0;
+    border-radius: 15px;
+}
+
+/* deleted 부분 끝 */
 
 .container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    background-color: #5ec5c9;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    max-width: 860px;
+    border-top: 20px solid #5ec5c9;
+    border-bottom: 20px solid #5ec5c9;
+    border: 1px solid black;
+    height: calc(100% - 2em);
+    box-sizing: border-box;
+    min-height: 98vh;
+    border-radius: 15px;
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
 }
 
-h1 {
-    margin-bottom: 20px;
-    color: #333;
-}
-
-label {
-    display: block;
-    margin-bottom: 10px;
-    color: #555;
-}
-
-input {
-    padding: 10px;
-    width: calc(100% - 22px);
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-p#result {
-    font-size: 18px;
-    color: #333;
+.container h1 {
     margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.input-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.task-input {
+    transition: padding-top 0.2s ease, margin-top 0.2s ease;
+    width: 80%;
+    height: 50px;
+    border: none;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #f7cb66;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.task-input:focus {
+    outline: none;
+    border-bottom: 3px solid rgba(3, 102, 214, 0.3);
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    transition: 0.5s;
+    padding-top: 35px;
+}
+
+.task-input + label > span {
+    font-weight: 300;
+    margin: 0;
+    position: absolute;
+    color: #8f8f8f;
+    font-size: 14px;
+    top: 6px;
+    left: 10px;
+    -webkit-transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+    transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+}
+
+.task-input:focus + label > span {
+    top: 0px;
+    color: #333;
+}
+
+.button-add {
+    border: none;
+    background-color: rgba(3, 102, 214, 0.3);
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    padding: 10px;
+    margin-left: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-add i {
+    font-size: 16px;
+    color: #0366d6;
+}
+
+.button-add:hover {
+    background-color: cadetblue;
+}
+
+.button-add:active {
+    background-color: #f3f4f6;
+    box-shadow: -1px 2px 5px rgba(81, 41, 10, 0.15),
+      0px 1px 1px rgba(81, 41, 10, 0.15);
+    transform: translateY(0.125rem);
+}
+
+.task-list-container {
+    margin-top: 1em;
+    position: relative;
+}
+
+.tab-type {
+    display: flex;
+}
+
+.tab-type div {
+    padding: 1em;
+    cursor: pointer;
+}
+
+#tab-underline {
+    background-color: #ed6651;
+    height: 4px !important;
+    position: absolute;
+    top: 52px;
+    left: 0px;
+    width: 48px;
+    transition: 0.2s;
+    padding: 0px;
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    margin: 1em 0;
+    border-radius: 15px;
+    background-color: #60c0bf;
+}
+
+.task span {
+    padding: 1em;
+}
+
+.button-box {
+    display: flex;
+}
+
+.button-box button {
+    background: transparent;
+    height: 100%;
+    border: none;
+    width: 2.5em;
+    margin: 0;
+    border-radius: 15px;
+    transition: 0.5s;
+}
+
+.button-box button:active {
+    position: relative;
+    top: 2px;
+}
+
+.button-box button:first-child:hover {
+    background-color: rgba(205, 255, 179, 0.3);
+}
+
+.button-box button:nth-child(2):hover {
+    background-color: rgba(236, 244, 124, 0.3);
+}
+
+.button-box button:nth-child(3):hover {
+    background-color: rgba(255, 154, 65, 0.3);
+}
+
+.button-box button:nth-child(4):hover {
+    background-color: rgba(47, 110, 255, 0.3);
+}
+
+.button-box button:nth-child(5):hover {
+    background-color: rgba(255, 137, 243, 0.3);
+}
+
+.button-box button:nth-child(6):hover {
+    background-color: rgba(255, 11, 11, 0.3);
+}
+
+.fa-redo {
+    color: gray;
+}
+
+.fa-check {
+    color: #a2e0a0;
+}
+
+.fa-trash-arrow-up {
+    color: #e06b6b;
+}
+
+.fa-rotate-right {
+    color: lightslategray;
+}
+
+.button-box .fa-star {
+    color: #f7cb66;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.button-box .fas.fa-star {
+    color: #f7cb66;
+}
+
+.fa-pen-to-square {
+    color: #ed6651;
+}
+
+.fa-calendar-alt {
+    color: #517eed;
+}
+
+.fa-bell {
+    color: #e0a7d8;
+}
+
+.task-done {
+    text-decoration: line-through;
+    background-color: lightgray;
+    transition: 0.5s;
+}
+
+/* 모바일 반응형 스타일 */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .container {
+        max-width: 100%;
+        height: auto;
+        min-height: 90vh;
+        border-radius: 0;
+        margin: 0 10px;
+        padding: 10px;
+    }
+
+    .calendar-container,
+    .deleted-container {
+        display: block;
+    }
+
+    
+    .task {
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 10px 0;
+    }
+
+    .task span {
+        margin-bottom: 10px;
+    }
+
+    .button-box {
+        justify-content: flex-start;
+    }
+
+    .button-box button {
+        margin: 0 5px;
+    }
+
+    .tab-type {
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    .tab-type div {
+        width: auto;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .input-area {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .task-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .button-add {
+        width: 100%;
+        justify-content: center;
+    }
 }
