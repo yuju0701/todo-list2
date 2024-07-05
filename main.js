@@ -214,7 +214,7 @@ function saveReminder() {
       render();
       reminderModal.hide();
     } else {
-      alert("날짜 및 시간 형식이 올바르지 않습니다. (YYYY-MM-DDTHH:MM)");
+      alert("날짜 및 시간 형식이 올바르지 않습니다. (YYYY-MM-DD-HH:MM)");
     }
   }
 }
@@ -346,7 +346,7 @@ function initializeCalendar() {
           const fullDate = `${yy}.${init.addZero(mm + 1)}.${init.addZero(countDay + 1)}`;
           trtd += '<td class="day';
           trtd += (markToday && markToday === countDay + 1) ? ' today"' : '"';
-          trtd += ` data-date="${countDay + 1}" data-fdate="${fullDate}">`;
+          trtd += ` data-date="${countDay + 1}" data-date="${fullDate}">`;
         }
         trtd += (startCount) ? ++countDay : '';
         if (countDay === lastDay.getDate()) {
