@@ -269,8 +269,10 @@ function initializeCalendar() {
   const calendarContainer = document.getElementById(SELECTORS.calendarContainer);
   const mainContainer = document.querySelector(SELECTORS.mainContainer);
   const closeCalendarButton = document.getElementById(SELECTORS.closeCalendarButton);
+  const deletedContainer = document.getElementById(SELECTORS.deletedContainer);
 
   calendarIcon.addEventListener("click", () => {
+    deletedContainer.style.display = "none";
     mainContainer.style.display = "none";
     calendarContainer.style.display = "block";
   });
@@ -382,8 +384,10 @@ function initializeDeletedContainer() {
   const deletedContainer = document.getElementById(SELECTORS.deletedContainer);
   const mainContainer = document.querySelector(SELECTORS.mainContainer);
   const closeDeletedButton = document.getElementById(SELECTORS.closeDeletedButton);
+  const calendarContainer = document.getElementById(SELECTORS.calendarContainer);
 
   deletedIcon.addEventListener("click", () => {
+    calendarContainer.style.display = "none";
     mainContainer.style.display = "none";
     deletedContainer.style.display = "block";
   });
